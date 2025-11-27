@@ -30,8 +30,8 @@ async function update(id, user) {
 const db = require('../config/db-config');
 
 async function insertUser(user) {
-    let sql = `INSERT INTO users (name, email, userName, password) VALUES (?, ?, ?, ?)`;
-    let [result] = await db.query(sql, [user.name, user.email, user.userName, user.password]);
+    let sql = `INSERT INTO users (Name, Email, UserName, Password) VALUES (?, ?, ?, ?)`;
+    let [result] = await db.query(sql, [user.Name, user.Email, user.UserName, user.Password]);
     return result.affectedRows;
 }
 
