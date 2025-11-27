@@ -27,11 +27,10 @@ async function update(id, user) {
    let [result] = await db.query(sql,[...values,id]);    
     return result.affectedRows;
 }
-const db = require('../config/db-config');
 
 async function insertUser(user) {
-    let sql = `INSERT INTO users (Name, Email, UserName, Password) VALUES (?, ?, ?, ?)`;
-    let [result] = await db.query(sql, [user.Name, user.Email, user.UserName, user.Password]);
+    let sql = `INSERT INTO users (Name, Email, User_Name, Password) VALUES (?, ?, ?, ?)`;
+    let [result] = await db.query(sql, [user.Name, user.Email, user.User_Name, user.Password]);
     return result.affectedRows;
 }
 

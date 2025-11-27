@@ -5,7 +5,7 @@ async function addUser(req, res) {
         let user = {
             Name: req.body.Name,
             Email: req.body.Email,
-            UserName: req.body.User_Name,
+            User_Name: req.body.User_Name,
             Password: req.pass
         };
 
