@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {valuesToAdd,encrypPass} = require('../middelware/auth_MID')
-const {addUser} = require('../controller/auth_C')
+const { valuesToAdd, encrypPass } = require('../middelware/auth_MID');
+const { addUser } = require('../controller/auth_C');
 
-router.post('/reg',valuesToAdd,encrypPass);
+router.post('/reg', valuesToAdd, encrypPass, addUser);
 
 module.exports = router;

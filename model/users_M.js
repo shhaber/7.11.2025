@@ -27,10 +27,20 @@ async function update(id, user) {
    let [result] = await db.query(sql,[...values,id]);    
     return result.affectedRows;
 }
+const db = require('../config/db-config');
+
+async function insertUser(user) {
+    let sql = `INSERT INTO users (name, email, userName, password) VALUES (?, ?, ?, ?)`;
+    let [result] = await db.query(sql, [user.name, user.email, user.userName, user.password]);
+    return result.affectedRows;
+}
+
+
 
 module.exports ={
     getALL,
     getOne,
     remove,
-    update
+    update,
+    insertUser
 }
