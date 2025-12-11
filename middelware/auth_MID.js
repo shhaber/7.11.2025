@@ -37,7 +37,7 @@ function isLoggedIn(req,res,next){
       return  res.status(401).json({message:"you have to connect to the server"});
     }
     try{
-        let payload = jwt.verify(token,process.env.SECRET_KEY);
+        let payload = jwt.verify(token,process.env.SECRET.KEY);
         console.log(payload);
         req.user = payload;
         next();
