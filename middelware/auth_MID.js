@@ -30,23 +30,33 @@ async function encrypPass(req,res,next){
     }
 }
 
-function isLoggedIn(req,res,next){
+function isLoggedIn(req, res, next) {
     let token = req.cookies.jwt;
-    console.log(token);
-    if(!token){
-      return  res.status(401).json({message:"you have to connect to the server"});
+
+    // إذا مافي كوكي، حاول نجيب من الهيدر
+    if (!token && req.headers.authorization) {
+        const parts = req.headers.authorization.split(" ");
+        if (parts.length === 2 && parts[0] === "Bearer") {
+            token = parts[1];
+        }
     }
-    try{
-        let payload = jwt.verify(token,process.env.SECRET.KEY);
-        console.log(payload);
-        req.user = payload;
+
+    if (!token) {
+        return res.status(401).json({ message: "you have to connect to the server" });
+    }
+
+    try {
+        let payload = jwt.verify(token, process.env.SECRET_KEY);
+        req.user = payload;  // الآن req.user موجود
+        console.log("Token payload:", payload);
         next();
-        
-    }catch(err){
+    } catch (err) {
         console.error(err);
-        res.status(500).json({message:"Server error"});
+        res.status(500).json({ message: "Server error" });
     }
 }
+
+
 
 module.exports = {
     valuesToAdd,
