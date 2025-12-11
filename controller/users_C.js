@@ -1,8 +1,8 @@
-const {getALL,getOne,remove,update} = require('../model/users_M.js');
+const {getAll,getOne,remove,update} = require('../model/users_M.js');
 async function getALLUsers(req,res){
     try{
         //console.log("hi");
-        users = await getALL();
+        users = await getAll();
         if(users.length == 0){
             return res.status(400).json({massege:"there is no data"})
         }
