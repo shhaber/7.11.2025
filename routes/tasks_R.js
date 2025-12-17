@@ -6,6 +6,6 @@ const { isLoggedIn } = require('../middelware/auth_MID');
 
 router.get('/', isLoggedIn, getAllTasks);
 router.post('/', isLoggedIn, validValues, addTask);
-router.patch('/:id', isLoggedIn, validValues);
+router.patch('/:id', isLoggedIn);
 
 module.exports = router;

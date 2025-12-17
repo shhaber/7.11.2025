@@ -11,9 +11,9 @@ async function getOne(taskId,User_Id) {
     let[result] = await db.query(sql,[taskId,User_Id]);
     return result[0];
 }
-async function add({User_Id }) {
-    let sql = `INSERT INTO tasks (UserID) VALUES (?, ?)`;
-    let [result] = await db.query(sql, [Name, User_Id]);
+async function add({ UserID, CategoryID }) {
+    let sql = `INSERT INTO tasks (IsDone, UserID, CategoryID) VALUES (0, ?, ?)`;
+    let [result] = await db.query(sql, [UserID, CategoryID]);
     return result.insertId;
 }
 
