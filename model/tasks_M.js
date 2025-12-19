@@ -11,14 +11,26 @@ async function getOne(taskId,User_Id) {
     let[result] = await db.query(sql,[taskId,User_Id]);
     return result[0];
 }
-async function add({ UserID, CategoryID }) {
-    let sql = `INSERT INTO tasks (IsDone, UserID, CategoryID) VALUES (0, ?, ?)`;
-    let [result] = await db.query(sql, [UserID, CategoryID]);
+async function add({ text, UserID, CategoryID }) {
+    let sql = `INSERT INTO tasks (text,UserID,CategoryID) VALUES (?,?,?)`;
+    let [result] = await db.query(sql, [text, UserID, CategoryID]);
     return result.insertId;
 }
+async function remove(taskId,User_Id) {
+    let sql = `DELETE FROM tasks WHERE id = ? AND UserID = ?`;
+    let [result] = await db.query(sql, [taskId,User_Id]);
+    return result;
+}
 
+async function update(taskId,User_Id,newText){
+    let sql = `UPDATE tasks SET text= ? WHERE id = ? AND UserID = ?`;
+    let [result] = await db.query(sql,[newText,taskId,User_Id]);    
+    return result.affectedRows;
+}
 module.exports = {
     getAll,
     getOne,
     add,
+    remove,
+    update
 };
