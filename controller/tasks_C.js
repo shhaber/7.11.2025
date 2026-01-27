@@ -56,30 +56,27 @@ async function deleteTask(req, res) {
 
 async function updateTask(req, res) {
     try {
-        const taskId = req.body.id;   // لأنك ترسل id في body
+        const taskId = req.params.id;
         const userId = req.user.id;
-        const { text } = req.body;
+        const { text, isDone, CategoryID } = req.body;
 
-        const affectedRows = await update(taskId, userId, text);
+        const dataToUpdate = {};
+        if (text !== undefined) dataToUpdate.text = text;
+        if (isDone !== undefined) dataToUpdate.isDone = isDone;
+        if (CategoryID !== undefined) dataToUpdate.CategoryID = CategoryID;
 
-        if (affectedRows === 0) {
-            return res.status(404).json({
-                message: `Task ${taskId} not found`
-            });
-        }
+        const affectedRows = await update(taskId, userId, dataToUpdate);
 
-        res.status(200).json({
-            message: "Task updated successfully"
-        });
+        if (affectedRows === 0)
+            return res.status(404).json({ message: `Task ${taskId} not found` });
 
+        res.status(200).json({ message: "Task updated successfully" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({
-            message: "Server error"
-        });
+        res.status(500).json({ message: "Server error" });
     }
-}
 
+}
 
 module.exports = {
     getAllTasks,

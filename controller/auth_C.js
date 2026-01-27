@@ -4,10 +4,10 @@ const {addUser,getByUserName,getByEmail} = require('../model/users_M');
 
 async function register(req,res) {
     try{
-        let Name = req.body.name;
-        let Email = req.body.email;
-        let User_Name = req.body.userName;
-        let Password = req.pass;
+        let Name = req.body.Name;
+        let Email = req.body.Email;
+        let User_Name = req.body.User_Name;
+        let Password = req.body.Password;
 
         let user = await getByUserName(User_Name);
         if(user){
@@ -55,7 +55,7 @@ function createJwt(req,res) {
             {expiresIn:'3h'}
         );
         console.log(token)
-        res.cookie('jwt',token,{maxAge:1000*60*60*3}).status(200).json({massege:"connected succisfully"})
+        res.cookie('jwt',token,{httpOnly:true,maxAge:1000*60*60*3}).status(200).json({massege:"connected succisfully",Name:user.Name})
 
     }catch(err){
         console.error(err);

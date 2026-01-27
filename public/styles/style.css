@@ -1,0 +1,8 @@
+#greating{
+    color: rgb(255, 0, 0);
+}
+
+.rowClass {
+    text-decoration: line-through;
+    color: gray;
+}

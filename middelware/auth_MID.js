@@ -20,9 +20,9 @@ function valuesToLogin(req,res,next){
 
 async function encrypPass(req,res,next){
     try{
-        let Password = req.body.Password;    
+        const { Password } = req.body;   
         let hashPass = await bcrypt.hash(Password,10);
-        req.Password = hashPass;
+        req.body.Password = hashPass;
         next();
     }catch(err){
         console.error(err);
