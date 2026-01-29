@@ -5,47 +5,43 @@ async function getAllTasks(req, res) {
         let tasks = await getAll(req.user.id);
         res.status(200).json(tasks);
     } catch (err) {
+        console.error(err);
         res.status(500).json({ message: "Server error" });
     }
 }
+
 async function getTask(req, res) {
     try {
         const taskId = req.params.id;
-
         let task = await getOne(taskId, req.user.id);
-        if (!task) {
-            return res.status(404).json({ message: "task not found" });
-        }
-
+        if (!task) return res.status(404).json({ message: "Task not found" });
         res.status(200).json(task);
     } catch (err) {
+        console.error(err);
         res.status(500).json({ message: "Server error" });
     }
 }
 
-
-async function addTask(req,res) {
-    try{
+async function addTask(req, res) {
+    try {
         let text = req.body.text;
         let UserID = req.user.id;
-        const { CategoryID } = req.body;
+        let CategoryID = req.body.CategoryID ?? null; // null لو لم يرسل
 
-        let taskId = await add({text,UserID,CategoryID});
-        if(!taskId){
-            return res.status(500).json({message:"Server error"});
-        }
-        res.status(201).json({message:"נוסף בהצלחה"});
-    }catch(err){
+        let taskId = await add({ text, UserID, CategoryID });
+        if (!taskId) return res.status(500).json({ message: "Server error" });
+
+        res.status(201).json({ message: "נוסף בהצלחה", taskId });
+    } catch (err) {
         console.error(err);
-        res.status(500).json({message:"Server error"});
+        res.status(500).json({ message: "Server error" });
     }
 }
-
 
 async function deleteTask(req, res) {
     try {
         let id = req.params.id;
-        let result = await remove(id,req.user.id);
+        let result = await remove(id, req.user.id);
         if (result.affectedRows === 0) return res.status(404).json({ message: "Task not found" });
         res.status(200).json({ message: "נמחק בהצלחה" });
     } catch (err) {
@@ -75,7 +71,6 @@ async function updateTask(req, res) {
         console.error(err);
         res.status(500).json({ message: "Server error" });
     }
-
 }
 
 module.exports = {
@@ -84,5 +79,4 @@ module.exports = {
     addTask,
     deleteTask,
     updateTask
-
-}
+};
